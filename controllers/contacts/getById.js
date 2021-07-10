@@ -1,28 +1,28 @@
-const contacts = require('../../model/index')
+const service = require("../../service/index");
 
 const getContactById = async (req, res, next) => {
   try {
-    const { contactId } = req.params
-    const allContacts = await contacts.listContacts()
+    const { contactId } = req.params;
+    const allContacts = await service.listContacts();
     if (allContacts.map((item) => String(item.id)).includes(contactId)) {
-      const selectContact = await contacts.getContactById(contactId)
+      const selectContact = await service.getContactById(contactId);
       return res.json({
-        status: 'success',
+        status: "success",
         code: 200,
         data: {
           result: selectContact,
         },
-      })
+      });
     } else {
       return res.status(404).json({
-        status: 'error',
+        status: "error",
         code: 404,
-        message: 'Not found',
-      })
+        message: "Not found",
+      });
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
-module.exports = getContactById
+module.exports = getContactById;

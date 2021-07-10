@@ -1,16 +1,19 @@
 const service = require("../../service/index");
-const { updateContactSchema } = require("../../utils/validate/schemas/contact");
+const {
+  updateStatusContactSchema,
+} = require("../../utils/validate/schemas/contact");
 
-const updateContact = async (req, res, next) => {
+const updateStatusContact = async (req, res, next) => {
   try {
+    const { favorite = false } = req.body;
     if (Object.keys(req.body).length === 0) {
       return res.status(400).json({
         status: "error",
         code: 404,
-        message: "missing fields",
+        message: "missing field favorite",
       });
     }
-    const { error } = updateContactSchema.validate(req.body);
+    const { error } = updateStatusContactSchema.validate(req.body);
     if (error) {
       return res.status(400).json({
         status: "error",
@@ -18,15 +21,21 @@ const updateContact = async (req, res, next) => {
         message: error.message,
       });
     }
+
     const { contactId } = req.params;
     const allContacts = await service.listContacts();
     if (allContacts.map((item) => String(item.id)).includes(contactId)) {
-      const updatedContact = await service.updateContact(contactId, req.body);
+      const updatedStatusContact = await service.updateStatusContact(
+        contactId,
+        {
+          favorite,
+        }
+      );
       return res.json({
         status: "success",
         code: 200,
         data: {
-          result: updatedContact,
+          result: updatedStatusContact,
         },
       });
     } else {
@@ -41,4 +50,4 @@ const updateContact = async (req, res, next) => {
   }
 };
 
-module.exports = updateContact;
+module.exports = updateStatusContact;
