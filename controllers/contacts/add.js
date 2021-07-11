@@ -1,5 +1,4 @@
-const contacts = require('../../model/index')
-const { v4 } = require('uuid')
+const service = require('../../service/index')
 const { newContactSchema } = require('../../utils/validate/schemas/contact')
 
 const addContact = async (req, res, next) => {
@@ -12,8 +11,9 @@ const addContact = async (req, res, next) => {
         message: 'missing required name field',
       })
     }
-    const newContact = { id: v4(), ...req.body }
-    await contacts.addContact(newContact)
+    const { favorite } = req.body
+    const data = favorite ? req.body : { ...req.body, favorite: false }
+    const newContact = await service.addContact(data)
     res.status(201).json({
       status: 'success',
       code: 201,

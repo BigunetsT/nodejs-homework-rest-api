@@ -1,11 +1,11 @@
-const contacts = require('../../model/index')
+const service = require('../../service/index')
 
 const deleteContact = async (req, res, next) => {
   try {
     const { contactId } = req.params
-    const allContacts = await contacts.listContacts()
+    const allContacts = await service.listContacts()
     if (allContacts.map((item) => String(item.id)).includes(contactId)) {
-      await contacts.removeContact(contactId)
+      await service.removeContact(contactId)
       return res.status(200).json({
         status: 'success',
         code: '200',
