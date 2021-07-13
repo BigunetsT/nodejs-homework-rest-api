@@ -12,7 +12,7 @@ const updateContactSchema = Joi.object({
   email: Joi.string().optional(),
   phone: Joi.string().min(7).optional(),
   favorite: Joi.boolean().optional(),
-})
+}).min(1)
 
 const updateStatusContactSchema = Joi.object({
   favorite: Joi.boolean().required(),

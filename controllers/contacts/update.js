@@ -1,4 +1,4 @@
-const service = require('../../service/index')
+const { contacts: service } = require('../../service/index')
 const { updateContactSchema } = require('../../utils/validate/schemas/contact')
 
 const updateContact = async (req, res, next) => {
