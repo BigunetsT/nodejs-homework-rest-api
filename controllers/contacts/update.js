@@ -3,6 +3,7 @@ const { updateContactSchema } = require('../../utils/validate/schemas/contact')
 
 const updateContact = async (req, res, next) => {
   try {
+    const userId = req.user.id
     if (Object.keys(req.body).length === 0) {
       return res.status(400).json({
         status: 'error',
@@ -19,9 +20,13 @@ const updateContact = async (req, res, next) => {
       })
     }
     const { contactId } = req.params
-    const allContacts = await service.listContacts()
+    const allContacts = await service.listContacts(userId)
     if (allContacts.map((item) => String(item.id)).includes(contactId)) {
-      const updatedContact = await service.updateContact(contactId, req.body)
+      const updatedContact = await service.updateContact(
+        userId,
+        contactId,
+        req.body
+      )
       return res.json({
         status: 'success',
         code: 200,

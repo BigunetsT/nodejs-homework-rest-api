@@ -5,6 +5,7 @@ const {
 
 const updateStatusContact = async (req, res, next) => {
   try {
+    const userId = req.user.id
     if (Object.keys(req.body).length === 0) {
       return res.status(400).json({
         status: 'error',
@@ -21,9 +22,10 @@ const updateStatusContact = async (req, res, next) => {
       })
     }
     const { contactId } = req.params
-    const allContacts = await service.listContacts()
+    const allContacts = await service.listContacts(userId)
     if (allContacts.map((item) => String(item.id)).includes(contactId)) {
       const updatedStatusContact = await service.updateStatusContact(
+        userId,
         contactId,
         {
           ...req.body,

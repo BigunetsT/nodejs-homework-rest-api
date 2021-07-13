@@ -2,10 +2,11 @@ const { contacts: service } = require('../../service/index')
 
 const getContactById = async (req, res, next) => {
   try {
+    const userId = req.user.id
     const { contactId } = req.params
-    const allContacts = await service.listContacts()
+    const allContacts = await service.listContacts(userId)
     if (allContacts.map((item) => String(item.id)).includes(contactId)) {
-      const selectContact = await service.getContactById(contactId)
+      const selectContact = await service.getContactById(userId, contactId)
       return res.json({
         status: 'success',
         code: 200,
