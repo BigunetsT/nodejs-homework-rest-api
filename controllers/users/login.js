@@ -18,13 +18,14 @@ const login = async (req, res, next) => {
     }
 
     const user = await service.findByEmail(email)
+    const { subscription } = user
 
     if (!user || user.password !== password) {
       return res.status(401).json({
         status: 'error',
         code: 401,
         message: 'Email or password is wrong',
-        data: 'Bad request',
+        data: 'Unauthorized',
       })
     }
 
@@ -38,7 +39,10 @@ const login = async (req, res, next) => {
         code: 200,
         data: {
           token,
-          user,
+          user: {
+            email,
+            subscription,
+          },
         },
       })
     }

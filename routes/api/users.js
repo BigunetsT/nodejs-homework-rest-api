@@ -9,4 +9,6 @@ router.post('/login', ctrlUser.login)
 
 router.post('/logout', auth, ctrlUser.logout)
 
+router.post('/current', auth, ctrlUser.current)
+
 module.exports = router
