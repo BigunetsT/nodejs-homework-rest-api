@@ -1,8 +1,8 @@
 const Contact = require('./schemas/contact.js')
 
-const listContacts = async (userId, { limit = 20, page = 1 }) => {
+const listContacts = async (userId, { limit = 20, page = 1, favorite }) => {
   const { docs: contacts, totalDocs: total } = await Contact.paginate(
-    { owner: userId },
+    { owner: userId, favorite: favorite || { $in: [true, false] } },
     {
       limit,
       page,
@@ -12,7 +12,13 @@ const listContacts = async (userId, { limit = 20, page = 1 }) => {
       },
     }
   )
-  return { contacts, total, limit, page }
+
+  return {
+    contacts,
+    total,
+    limit,
+    page,
+  }
 }
 
 const getContactById = (userId, contactId) => {
