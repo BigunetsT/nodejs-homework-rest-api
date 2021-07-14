@@ -17,9 +17,16 @@ const updateToken = (id, token) => {
   return User.updateOne({ _id: id }, { token })
 }
 
+const updateSubscription = (userId, body) => {
+  return User.findByIdAndUpdate({ _id: userId }, body, {
+    new: true,
+  })
+}
+
 module.exports = {
   findById,
   findByEmail,
   create,
   updateToken,
+  updateSubscription,
 }

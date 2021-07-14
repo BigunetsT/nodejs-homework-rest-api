@@ -11,4 +11,6 @@ router.post('/logout', auth, ctrlUser.logout)
 
 router.post('/current', auth, ctrlUser.current)
 
+router.patch('/subscription', auth, ctrlUser.updateSubscription)
+
 module.exports = router
