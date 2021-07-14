@@ -1,11 +1,25 @@
 const Contact = require('./schemas/contact.js')
 
-const listContacts = (userId) => {
-  return Contact.find({ owner: userId })
+const listContacts = async (userId, { limit = 20, page = 1 }) => {
+  const { docs: contacts, totalDocs: total } = await Contact.paginate(
+    { owner: userId },
+    {
+      limit,
+      page,
+      populate: {
+        path: 'owner',
+        select: 'email',
+      },
+    }
+  )
+  return { contacts, total, limit, page }
 }
 
 const getContactById = (userId, contactId) => {
-  return Contact.findOne({ _id: contactId, owner: userId })
+  return Contact.findOne({ _id: contactId, owner: userId }).populate({
+    path: 'owner',
+    select: 'email',
+  })
 }
 
 const removeContact = (userId, contactId) => {
@@ -19,12 +33,18 @@ const addContact = (userId, body) => {
 const updateContact = (userId, contactId, fields) => {
   return Contact.findByIdAndUpdate({ _id: contactId, owner: userId }, fields, {
     new: true,
+  }).populate({
+    path: 'owner',
+    select: 'email',
   })
 }
 
 const updateStatusContact = (userId, contactId, body) => {
   return Contact.findByIdAndUpdate({ _id: contactId, owner: userId }, body, {
     new: true,
+  }).populate({
+    path: 'owner',
+    select: 'email',
   })
 }
 module.exports = {
