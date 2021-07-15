@@ -1,7 +1,7 @@
 const User = require('./schemas/users')
 
 const findById = (id) => {
-  return User.findOne({ _id: id })
+  return User.findById(id)
 }
 
 const findByEmail = (email) => {
@@ -13,20 +13,20 @@ const create = (body) => {
   return user.save()
 }
 
-const updateToken = (id, token) => {
-  return User.updateOne({ _id: id }, { token })
-}
-
-const updateSubscription = (userId, body) => {
-  return User.findByIdAndUpdate({ _id: userId }, body, {
+const update = (id, body) => {
+  return User.findByIdAndUpdate(id, body, {
     new: true,
   })
+}
+
+const updateToken = (id, token) => {
+  return User.findByIdAndUpdate(id, { token })
 }
 
 module.exports = {
   findById,
   findByEmail,
   create,
+  update,
   updateToken,
-  updateSubscription,
 }

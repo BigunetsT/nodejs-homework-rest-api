@@ -21,15 +21,15 @@ const listContacts = async (userId, { limit = 20, page = 1, favorite }) => {
   }
 }
 
-const getContactById = (userId, contactId) => {
-  return Contact.findOne({ _id: contactId, owner: userId }).populate({
+const getContactById = async (userId, contactId) => {
+  return await Contact.findOne({ _id: contactId, owner: userId }).populate({
     path: 'owner',
     select: 'email',
   })
 }
 
 const removeContact = (userId, contactId) => {
-  return Contact.findByIdAndRemove({ _id: contactId, owner: userId })
+  return Contact.findOneAndRemove({ _id: contactId, owner: userId })
 }
 
 const addContact = (userId, body) => {
@@ -37,16 +37,7 @@ const addContact = (userId, body) => {
 }
 
 const updateContact = (userId, contactId, fields) => {
-  return Contact.findByIdAndUpdate({ _id: contactId, owner: userId }, fields, {
-    new: true,
-  }).populate({
-    path: 'owner',
-    select: 'email',
-  })
-}
-
-const updateStatusContact = (userId, contactId, body) => {
-  return Contact.findByIdAndUpdate({ _id: contactId, owner: userId }, body, {
+  return Contact.findOneAndUpdate({ _id: contactId, owner: userId }, fields, {
     new: true,
   }).populate({
     path: 'owner',
@@ -59,5 +50,4 @@ module.exports = {
   removeContact,
   addContact,
   updateContact,
-  updateStatusContact,
 }

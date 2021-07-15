@@ -26,7 +26,7 @@ const updateStatusContact = async (req, res, next) => {
     const contacts = allContacts.contacts
 
     if (contacts.map((item) => String(item.id)).includes(contactId)) {
-      const updatedStatusContact = await service.updateStatusContact(
+      const updatedStatusContact = await service.updateContact(
         userId,
         contactId,
         {

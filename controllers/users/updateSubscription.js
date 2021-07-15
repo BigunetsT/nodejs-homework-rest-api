@@ -15,7 +15,7 @@ const updateSubscription = async (req, res, next) => {
     }
     const userId = req.user.id
 
-    const updateSubscription = await service.updateSubscription(userId, {
+    const updateSubscription = await service.update(userId, {
       ...req.body,
     })
     return res.json({

@@ -2,18 +2,18 @@ const { users: service } = require('../../service/index')
 const { userSchema } = require('../../utils/validate/schemas/user')
 
 const reg = async (req, res, next) => {
-  const { email, password } = req.body
-  const user = await service.findByEmail(email)
-
-  if (user) {
-    return res.status(409).json({
-      status: 'error',
-      code: 409,
-      message: 'Email in use',
-      data: 'Conflict',
-    })
-  }
   try {
+    const { email, password } = req.body
+    const user = await service.findByEmail(email)
+
+    if (user) {
+      return res.status(409).json({
+        status: 'error',
+        code: 409,
+        message: 'Email in use',
+        data: 'Conflict',
+      })
+    }
     const { error } = userSchema.validate(req.body)
     if (error) {
       return res.status(400).json({
