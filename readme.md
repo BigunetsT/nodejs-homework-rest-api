@@ -1,31 +1,69 @@
-## GoIT Node.js Course Template Homework
+# REST API для работы с коллекцией контактов
 
-Выполните форк этого репозитория для выполнения домашних заданий (2-6)
-Форк создаст репозиторий на вашем http://github.com
+<https://github.com/BigunetsT?tab=repositories>
 
-Добавьте ментора в коллаборацию
+## Пользователь
 
-Для каждой домашней работы создавайте свою ветку.
+**POST /users/signup** Создать нового пользователя
+**POST /users/login** Залогинить пользователя
+**POST /users/logout** Разлогинить пользователя
+**POST /users/current** Получить информацию о текущем пользователе
+**PATCH /users/subscription** Обновление подписки пользователя
 
-- hw02
-- hw03
-- hw04
-- hw05
-- hw06
+### Схема пользователя
 
-Каждая новая ветка для дз должна делаться с master
+> const userSchema = new Schema(
+> {
+> password: {
+> type: String,
+> required: [true, 'Password is required'],
+> },
+> email: {
+> type: String,
+> required: [true, 'Email is required'],
+> unique: true,
+> },
+> subscription: {
+> type: String,
+> enum: ['starter', 'pro', 'business'],
+> default: 'starter',
+> },
+> token: {
+> type: String,
+> default: null,
+> },
+> }
+> )
 
-После того как вы закончили выполнять домашнее задание в своей ветке, необходимо сделать пулл-реквест (PR). Потом добавить ментора для ревью кода. Только после того как ментор заапрувит PR, вы можете выполнить мердж ветки с домашним заданием в мастер.
+## Контакт
 
-Внимательно читайте комментарии ментора. Исправьте замечания и сделайте коммит в ветке с домашним заданием. Изменения подтянуться в PR автоматически после того как вы отправите коммит с исправлениями на github
-После исправления снова добавьте ментора на ревью кода.
+**GET /contacts** Получить все контакты пользователя
+**POST /contacts** Создать новый контакт
+**DELETE /contacts/:contactId** Удалить контакт
+**PUT /contacts/:contactId** Обновить существующий контакт
+**PATCH /contacts/:contactId/favorite** Обновление статуса контакта
 
-- При сдаче домашней работы есть ссылка на PR
-- JS-код чистый и понятный, для форматирования используется Prettier
+### Схема контакта
 
-### Команды:
-
-- `npm start` &mdash; старт сервера в режиме production
-- `npm run start:dev` &mdash; старт сервера в режиме разработки (development)
-- `npm run lint` &mdash; запустить выполнение проверки кода с eslint, необходимо выполнять перед каждым PR и исправлять все ошибки линтера
-- `npm lint:fix` &mdash; та же проверка линтера, но с автоматическими исправлениями простых ошибок
+> const contactSchema = new Schema(
+> {
+> name: {
+> type: String,
+> required: [true, 'Set name for contact'],
+> },
+> email: {
+> type: String,
+> },
+> phone: {
+> type: String,
+> },
+> favorite: {
+> type: Boolean,
+> default: false,
+> },
+> owner: {
+> type: mongoose.SchemaTypes.ObjectId,
+> ref: 'user',
+> },
+> }
+> )
