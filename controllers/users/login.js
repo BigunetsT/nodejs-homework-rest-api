@@ -1,44 +1,42 @@
-const { users: service } = require("../../service/index");
-const { userSchema } = require("../../utils/validate/schemas/user");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const secret = process.env.JWT_SECRET_KEY;
+const { users: service } = require('../../service/index')
+const { userSchema } = require('../../utils/validate/schemas/user')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+const secret = process.env.JWT_SECRET_KEY
 
 const login = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body
 
   try {
-    const { error } = userSchema.validate(req.body);
+    const { error } = userSchema.validate(req.body)
     if (error) {
       return res.status(400).json({
-        status: "error",
+        status: 'error',
         code: 400,
-        message: "missing required name field",
-      });
+        message: 'missing required name field',
+      })
     }
 
-    const user = await service.findByEmail(email);
-    const { subscription } = user;
-
+    const user = await service.findByEmail(email)
     if (!user || !user.validPassword(password)) {
       return res.status(401).json({
-        status: "error",
+        status: 'error',
         code: 401,
-        message: "Email or password is wrong",
-        data: "Unauthorized",
-      });
+        message: 'Email or password is wrong',
+        data: 'Unauthorized',
+      })
     }
 
-    const id = user._id;
-    const payload = { id };
+    const id = user._id
+    const payload = { id }
 
-    const token = jwt.sign(payload, secret, { expiresIn: "1h" });
+    const token = jwt.sign(payload, secret, { expiresIn: '1h' })
 
-    await service.updateToken(id, token);
-
+    await service.updateToken(id, token)
+    const { subscription } = user
     if (token) {
       res.json({
-        status: "success",
+        status: 'success',
         code: 200,
         data: {
           token,
@@ -47,11 +45,11 @@ const login = async (req, res, next) => {
             subscription,
           },
         },
-      });
+      })
     }
   } catch (error) {
-    next(error);
+    next(error)
   }
-};
+}
 
-module.exports = login;
+module.exports = login

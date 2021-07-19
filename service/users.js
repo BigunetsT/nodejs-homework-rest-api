@@ -1,29 +1,29 @@
-const User = require("./schemas/users");
+const User = require('./schemas/users')
 
 const findById = (id) => {
-  return User.findById(id);
-};
+  return User.findById(id)
+}
 
 const findByEmail = (email) => {
-  return User.findOne({ email });
-};
+  return User.findOne({ email })
+}
 
 const create = (body) => {
-  const { password } = body;
-  const newUser = new User(body);
-  newUser.setPassword(password);
-  return newUser.save();
-};
+  const { password } = body
+  const newUser = new User(body)
+  newUser.setPassword(password)
+  return newUser.save()
+}
 
 const update = (id, body) => {
   return User.findByIdAndUpdate(id, body, {
     new: true,
-  });
-};
+  })
+}
 
 const updateToken = (id, token) => {
-  return User.findByIdAndUpdate(id, { token });
-};
+  return User.findByIdAndUpdate(id, { token })
+}
 
 module.exports = {
   findById,
@@ -31,4 +31,4 @@ module.exports = {
   create,
   update,
   updateToken,
-};
+}

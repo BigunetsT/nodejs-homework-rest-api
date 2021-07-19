@@ -36,10 +36,14 @@ const addContact = (userId, body) => {
   return Contact.create({ ...body, owner: userId })
 }
 
-const updateContact = (userId, contactId, fields) => {
-  return Contact.findOneAndUpdate({ _id: contactId, owner: userId }, fields, {
-    new: true,
-  }).populate({
+const updateContact = async (userId, contactId, fields) => {
+  return await Contact.findOneAndUpdate(
+    { _id: contactId, owner: userId },
+    fields,
+    {
+      new: true,
+    }
+  ).populate({
     path: 'owner',
     select: 'email',
   })
