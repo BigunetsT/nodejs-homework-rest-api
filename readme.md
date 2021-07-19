@@ -12,7 +12,7 @@
 
 **POST /users/current** Получить информацию о текущем пользователе
 
-**PATCH /users/subscription** Обновление подписки пользователя
+**PATCH /users/subscription** Обновить подписку пользователя
 
 ## Контакт
 
@@ -24,4 +24,4 @@
 
 **PUT /contacts/:contactId** Обновить существующий контакт
 
-**PATCH /contacts/:contactId/favorite** Обновление статуса контакта
+**PATCH /contacts/:contactId/favorite** Обновить статус контакта
