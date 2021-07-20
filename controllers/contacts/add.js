@@ -1,8 +1,9 @@
-const service = require('../../service/index')
+const { contacts: service } = require('../../service/index')
 const { newContactSchema } = require('../../utils/validate/schemas/contact')
 
 const addContact = async (req, res, next) => {
   try {
+    const userId = req.user.id
     const { error } = newContactSchema.validate(req.body)
     if (error) {
       return res.status(400).json({
@@ -13,7 +14,7 @@ const addContact = async (req, res, next) => {
     }
     const { favorite } = req.body
     const data = favorite ? req.body : { ...req.body, favorite: false }
-    const newContact = await service.addContact(data)
+    const newContact = await service.addContact(userId, data)
     res.status(201).json({
       status: 'success',
       code: 201,
