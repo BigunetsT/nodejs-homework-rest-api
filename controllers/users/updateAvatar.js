@@ -19,6 +19,11 @@ const updateAvatar = async (req, res, next) => {
         )
         .writeAsync(tempName)
       const newFileName = path.join(avatarDir, `${id}_${originalname}`)
+      const oldAvatar = (await fs.readdir(avatarDir)).find((fileName) =>
+        fileName.includes(id)
+      )
+      const avatarForDeleted = path.join(avatarDir, oldAvatar)
+      fs.unlink(avatarForDeleted)
       fs.rename(tempName, newFileName)
       const { avatarURL: newAvatarUrl } = await service.updateAvatar(
         id,
