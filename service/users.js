@@ -25,10 +25,21 @@ const updateToken = (id, token) => {
   return User.findByIdAndUpdate(id, { token })
 }
 
+const updateAvatar = async (id, newFileName) => {
+  return User.findByIdAndUpdate(
+    id,
+    { avatarURL: newFileName },
+    {
+      new: true,
+    }
+  )
+}
+
 module.exports = {
   findById,
   findByEmail,
   create,
   update,
   updateToken,
+  updateAvatar,
 }

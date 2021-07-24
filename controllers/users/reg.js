@@ -29,6 +29,7 @@ const reg = async (req, res, next) => {
       data: {
         email: newUser.email,
         subscription: newUser.subscription,
+        avatarURL: newUser.avatarURL,
       },
     })
   } catch (error) {

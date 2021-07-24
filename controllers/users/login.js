@@ -33,7 +33,7 @@ const login = async (req, res, next) => {
     const token = jwt.sign(payload, secret, { expiresIn: '1h' })
 
     await service.updateToken(id, token)
-    const { subscription } = user
+    const { subscription, avatarURL } = user
     if (token) {
       res.json({
         status: 'success',
@@ -43,6 +43,7 @@ const login = async (req, res, next) => {
           user: {
             email,
             subscription,
+            avatarURL,
           },
         },
       })

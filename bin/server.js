@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 const app = require('../app')
-
+const createFolderIsNotExist = require('../helpers/createFolderIsNotExist')
 require('dotenv').config()
 
 const PORT = process.env.PORT || 4000
 const { DB_HOST } = process.env
+const { tempDir, avatarDir } = require('../helpers/constants')
 
 mongoose
   .connect(DB_HOST, {
@@ -15,6 +16,8 @@ mongoose
   })
   .then(() => {
     console.log('Database connection successful')
+    createFolderIsNotExist(tempDir)
+    createFolderIsNotExist(avatarDir)
     app.listen(PORT)
   })
   .catch((err) => {
