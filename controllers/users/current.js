@@ -1,6 +1,6 @@
 const current = async (req, res, next) => {
   try {
-    const { email, subscription } = req.user
+    const { email, subscription, avatarURL } = req.user
 
     res.status(200).json({
       status: 'success',
@@ -8,6 +8,7 @@ const current = async (req, res, next) => {
       data: {
         email,
         subscription,
+        avatarURL,
       },
     })
   } catch (error) {
