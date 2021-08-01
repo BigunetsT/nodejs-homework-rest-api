@@ -1,5 +1,7 @@
 const { users: service } = require('../../service/index')
 const { userSchema } = require('../../utils/validate/schemas/user')
+const { nanoid } = require('nanoid')
+const sendMail = require('../../helpers/sendMail')
 
 const reg = async (req, res, next) => {
   try {
@@ -22,7 +24,20 @@ const reg = async (req, res, next) => {
         message: error.message,
       })
     }
-    const newUser = await service.create(req.body)
+    const verificationToken = nanoid()
+
+    const newUser = await service.create({
+      ...req.body,
+      verifyToken: verificationToken,
+    })
+
+    const mail = {
+      to: email,
+      subject: 'Please verify your email',
+      text: 'Please verify your email',
+      html: `<a href='http://localhost:4000/api/users/verify/${verificationToken}'>Click for verify email </a>`,
+    }
+    await sendMail(mail)
     res.status(201).json({
       status: 'success',
       code: 201,

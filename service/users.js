@@ -8,9 +8,12 @@ const findByEmail = (email) => {
   return User.findOne({ email })
 }
 
-const create = (body) => {
-  const { password } = body
-  const newUser = new User(body)
+const findOne = (filter) => {
+  return User.findOne(filter)
+}
+
+const create = ({ password, ...other }) => {
+  const newUser = new User(other)
   newUser.setPassword(password)
   return newUser.save()
 }
@@ -42,4 +45,5 @@ module.exports = {
   update,
   updateToken,
   updateAvatar,
+  findOne,
 }

@@ -18,11 +18,11 @@ const login = async (req, res, next) => {
     }
 
     const user = await service.findByEmail(email)
-    if (!user || !user.validPassword(password)) {
+    if (!user || !user.validPassword(password) || !user.verify) {
       return res.status(401).json({
         status: 'error',
         code: 401,
-        message: 'Email or password is wrong',
+        message: 'Email or password is wrong OR Verification error',
         data: 'Unauthorized',
       })
     }

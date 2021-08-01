@@ -21,4 +21,6 @@ router.patch(
   ctrlUser.updateAvatar
 )
 
+router.get('/verify/:verificationToken', ctrlUser.verify)
+
 module.exports = router
