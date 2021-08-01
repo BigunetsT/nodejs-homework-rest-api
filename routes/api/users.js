@@ -23,4 +23,6 @@ router.patch(
 
 router.get('/verify/:verificationToken', ctrlUser.verify)
 
+router.post('/verify', ctrlUser.repeatedVerify)
+
 module.exports = router
