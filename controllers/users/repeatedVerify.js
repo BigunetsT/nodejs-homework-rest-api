@@ -1,6 +1,6 @@
 const { users: service } = require('../../service/index')
 const { repeatedVerifySchema } = require('../../utils/validate/schemas/user')
-const sendMail = require('../../helpers/sendMail')
+const { sendMail } = require('../../helpers')
 
 const repeatedVerify = async (req, res, next) => {
   try {
@@ -14,7 +14,7 @@ const repeatedVerify = async (req, res, next) => {
     }
 
     const { email } = req.body
-    const user = await service.findByEmail(email)
+    const user = await service.findOne({ email })
     if (user.verify) {
       return res.status(400).json({
         status: 'error',

@@ -1,12 +1,12 @@
 const { users: service } = require('../../service/index')
 const { userSchema } = require('../../utils/validate/schemas/user')
 const { nanoid } = require('nanoid')
-const sendMail = require('../../helpers/sendMail')
+const { sendMail } = require('../../helpers')
 
 const reg = async (req, res, next) => {
   try {
     const { email } = req.body
-    const user = await service.findByEmail(email)
+    const user = await service.findOne({ email })
 
     if (user) {
       return res.status(409).json({

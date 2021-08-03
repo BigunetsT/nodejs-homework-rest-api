@@ -11,6 +11,13 @@ const verify = async (req, res, next) => {
         message: 'User not found',
       })
     }
+    if (user.verify) {
+      return res.status(400).json({
+        status: 'error',
+        code: 400,
+        message: 'Verification has already been passed',
+      })
+    }
     await service.update(user._id, {
       verificationToken: null,
       verify: true,

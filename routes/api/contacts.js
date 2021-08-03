@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const ctrlContact = require('../../controllers/contacts')
-const auth = require('../../helpers/auth')
+const { auth } = require('../../helpers')
 
 router.get('/', auth, ctrlContact.getAll)
 
