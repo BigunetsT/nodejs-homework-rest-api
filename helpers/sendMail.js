@@ -13,13 +13,8 @@ const sendMail = async ({ to, subject, text, html }) => {
     text,
     html,
   }
-
-  try {
-    const result = await sgMail.send(mail)
-    return result
-  } catch (error) {
-    throw error
-  }
+  const result = await sgMail.send(mail)
+  return result
 }
 
 module.exports = sendMail
