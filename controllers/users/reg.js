@@ -31,13 +31,8 @@ const reg = async (req, res, next) => {
       verifyToken: verificationToken,
     })
 
-    const mail = {
-      to: email,
-      subject: 'Please verify your email',
-      text: 'Please verify your email',
-      html: `<a href='http://localhost:4000/api/users/verify/${verificationToken}'>Click for verify email </a>`,
-    }
-    await sendMail(mail)
+    const link = `http://localhost:4000/api/users/verify/${verificationToken}`
+    await sendMail({ email, link })
     res.status(201).json({
       status: 'success',
       code: 201,

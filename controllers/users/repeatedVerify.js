@@ -22,13 +22,8 @@ const repeatedVerify = async (req, res, next) => {
         message: 'Verification has already been passed',
       })
     }
-    const mail = {
-      to: email,
-      subject: 'Please verify your email',
-      text: 'Please verify your email',
-      html: `<a href='http://localhost:4000/api/users/verify/${user.verifyToken}'>Click for verify email </a>`,
-    }
-    await sendMail(mail)
+    const link = `http://localhost:4000/api/users/verify/${user.verifyToken}`
+    await sendMail({ email, link })
     res.status(200).json({
       status: 'success',
       code: 200,
