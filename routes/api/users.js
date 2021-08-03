@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const ctrlUser = require('../../controllers/users')
-const auth = require('../../helpers/auth')
-const uploadMiddleware = require('../../helpers/uploadMiddleware')
+const { auth, uploadMiddleware } = require('../../helpers')
 
 router.post('/signup', ctrlUser.reg)
 
@@ -20,5 +19,9 @@ router.patch(
   uploadMiddleware.single('avatar'),
   ctrlUser.updateAvatar
 )
+
+router.get('/verify/:verificationToken', ctrlUser.verify)
+
+router.post('/verify', ctrlUser.repeatedVerify)
 
 module.exports = router

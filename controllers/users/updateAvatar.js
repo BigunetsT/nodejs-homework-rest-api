@@ -2,7 +2,9 @@ const Jimp = require('jimp')
 const path = require('path')
 const fs = require('fs/promises')
 const { users: service } = require('../../service/index')
-const { avatarDir } = require('../../helpers/constants')
+const {
+  constants: { avatarDir },
+} = require('../../helpers')
 
 const updateAvatar = async (req, res, next) => {
   const id = req.user.id
@@ -22,8 +24,10 @@ const updateAvatar = async (req, res, next) => {
       const oldAvatar = (await fs.readdir(avatarDir)).find((fileName) =>
         fileName.includes(id)
       )
-      const avatarForDeleted = path.join(avatarDir, oldAvatar)
-      fs.unlink(avatarForDeleted)
+      if (oldAvatar) {
+        const avatarForDeleted = path.join(avatarDir, oldAvatar)
+        fs.unlink(avatarForDeleted)
+      }
       fs.rename(tempName, newFileName)
       const { avatarURL: newAvatarUrl } = await service.updateAvatar(
         id,
